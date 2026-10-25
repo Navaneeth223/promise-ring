@@ -2,12 +2,107 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>promise-ring</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#1a1015" />
+    <title>Our Promise</title>
+    <meta name="description" content="A heartfelt promise, just for you — a scroll-driven proposal experience." />
+    <meta name="robots" content="noindex" />
+    <!-- Open Graph -->
+    <meta property="og:title"       content="Our Promise" />
+    <meta property="og:description" content="Something beautiful, just for you." />
+    <meta property="og:type"        content="website" />
+    <!-- Preconnect for Google Fonts (loaded in CSS) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
+
   <body>
-    <div id="app"></div>
+    <!-- ── Loader ─────────────────────────────────────────── -->
+    <div id="loader" role="status" aria-live="polite">
+      <div class="loader-ring-spinner" aria-hidden="true"></div>
+      <p class="loader-text">Something for you, <span id="her-name-loader"></span></p>
+      <div class="loader-progress-bar" aria-hidden="true">
+        <div class="loader-progress-fill"></div>
+      </div>
+      <p class="loader-sub">Loading…</p>
+    </div>
+
+    <!-- ── Scroll cue ─────────────────────────────────────── -->
+    <div id="scroll-cue" class="scroll-cue" aria-hidden="true">
+      <span class="scroll-cue-text">Scroll to begin</span>
+      <div class="scroll-cue-arrow"></div>
+    </div>
+
+    <!-- ── Music toggle ───────────────────────────────────── -->
+    <button id="music-btn" aria-label="Play music" title="Toggle music">♪</button>
+    <audio id="bg-audio" loop></audio>
+
+    <!-- ── Particle canvas (behind video) ────────────────── -->
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+    <!-- ── Caption layer ─────────────────────────────────── -->
+    <div id="caption-layer" aria-hidden="true"></div>
+
+    <!-- ── Scene 1: video 1 scrub ─────────────────────────── -->
+    <div id="scene1" class="scene">
+      <!-- This div provides the scroll height; canvas is pinned -->
+      <div style="height: var(--scene1-height, 4000px);"></div>
+    </div>
+
+    <!-- ── Canvas (shared, pinned) ────────────────────────── -->
+    <div id="canvas-wrap">
+      <canvas id="video-canvas" aria-hidden="true"></canvas>
+    </div>
+
+    <!-- ── Question overlay ───────────────────────────────── -->
+    <div id="question-overlay" role="dialog" aria-modal="true"
+         aria-labelledby="question-title" aria-hidden="true">
+      <div class="question-card">
+        <div class="question-ring-icon" aria-hidden="true">💍</div>
+        <h2 class="question-title" id="question-title">
+          Will you accept<br />my promise?
+        </h2>
+        <p class="question-subtitle">
+          Across every distance, every timezone — this one is for you.
+        </p>
+        <div class="question-btns">
+          <button id="btn-yes" class="btn-yes" aria-label="Yes, I accept your promise">Yes 💕</button>
+          <button id="btn-no"  class="btn-no"  aria-label="No, not right now">No</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── No scene ───────────────────────────────────────── -->
+    <div id="no-scene" role="region" aria-label="A gentle response" aria-hidden="true">
+      <canvas class="no-petals-canvas" aria-hidden="true"></canvas>
+      <h2 class="no-title">That's okay.<br />I'll wait for you.</h2>
+      <p class="no-subtitle">
+        No rush. No pressure.<br />
+        I'm not going anywhere.
+      </p>
+      <button id="btn-try-again" class="btn-try-again">Let me ask again</button>
+    </div>
+
+    <!-- ── Scene 2: video 2 scrub (unlocked after Yes) ─────── -->
+    <div id="scene2" class="scene">
+      <div style="height: var(--scene2-height, 4000px);"></div>
+    </div>
+
+    <!-- ── Three.js ring overlay ──────────────────────────── -->
+    <canvas id="ring-canvas" aria-label="A 3D promise ring — drag to rotate" tabindex="0"></canvas>
+
+    <!-- ── Finale / Letter ────────────────────────────────── -->
+    <div id="finale">
+      <section id="letter-section" aria-labelledby="letter-closing">
+        <article class="letter-card">
+          <p class="letter-salutation" id="her-name-letter"></p>
+          <p class="letter-body" id="letter-body"></p>
+          <p class="letter-closing" id="letter-closing">Forever starts with a promise.</p>
+          <p class="letter-signature" id="your-name-letter"></p>
+        </article>
+      </section>
+    </div>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
