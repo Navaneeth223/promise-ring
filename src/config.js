@@ -6,8 +6,8 @@
  */
 export const CONFIG = {
   // ── Names ─────────────────────────────────────────────────
-  HER_NAME: 'Her Name',     // shown in loader & letter
-  YOUR_NAME: 'Your Name',   // signed at bottom of letter
+  HER_NAME: 'Raya',     // shown in loader & letter
+  YOUR_NAME: 'Navi',   // signed at bottom of letter
 
   // ── Letter ────────────────────────────────────────────────
   LETTER: [
