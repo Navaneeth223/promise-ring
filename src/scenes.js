@@ -76,6 +76,10 @@ export function setupScenes({
         scrollCue.classList.remove('visible');
         scrollCue.classList.add('hidden');
       }
+      // Trigger question at end of scene 1
+      if (p >= 0.995) {
+        onScene1End();
+      }
     },
     onLeave() {
       // End of scene 1 — show question
@@ -123,6 +127,10 @@ export function setupScenes({
         for (const cap of captions2) {
           const visible = p >= cap.inAt && p < cap.outAt;
           cap.el.classList.toggle('visible', visible);
+        }
+
+        if (p >= 0.995) {
+          onScene2End();
         }
       },
       onLeave() {

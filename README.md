@@ -53,23 +53,32 @@ assets/
 
 ### Converting Videos to Frame Sequences
 
-Run these **ffmpeg** commands from the project root. Adjust `-r 24` (fps) and frame counts if needed.
+You can either run the automated extraction script or run the **ffmpeg** commands manually.
+
+#### Option A: Automated script (Recommended)
+```bash
+node scripts/extract_frames.cjs
+```
+This extracts high-quality WebP frames (24 fps, 960x540) to `public/frames/v1/` and `public/frames/v2/`, and places `ring.glb` into `public/assets/ring.glb`.
+
+#### Option B: Manual ffmpeg commands
+From the project root:
 
 **Video 1:**
 ```bash
 ffmpeg -i assets/video1-proposal.mp4 \
-  -vf "scale=720:-2,format=yuv420p" \
+  -vf "scale=960:-2,format=yuv420p" \
   -r 24 \
-  -q:v 70 \
+  -q:v 75 \
   public/frames/v1/%04d.webp
 ```
 
 **Video 2:**
 ```bash
 ffmpeg -i assets/video2-ring-on-finger.mp4 \
-  -vf "scale=720:-2,format=yuv420p" \
+  -vf "scale=960:-2,format=yuv420p" \
   -r 24 \
-  -q:v 70 \
+  -q:v 75 \
   public/frames/v2/%04d.webp
 ```
 
@@ -79,7 +88,7 @@ ffmpeg -i assets/video2-ring-on-finger.mp4 \
 > (Get-ChildItem public/frames/v1/*.webp).Count
 > (Get-ChildItem public/frames/v2/*.webp).Count
 > ```
-> Update `VIDEO1_FRAMES` and `VIDEO2_FRAMES` in `config.js` to match.
+> Update `VIDEO1_FRAMES` and `VIDEO2_FRAMES` in `config.js` to match (currently set to 121 frames).
 
 ### 3D Ring Model
 

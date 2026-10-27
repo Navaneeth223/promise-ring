@@ -104,11 +104,11 @@ export class Ring3D {
     const onUp = () => { dragging = false; };
 
     this.canvas.addEventListener('mousedown',  onDown,  { passive: true });
-    this.canvas.addEventListener('mousemove',  onMove,  { passive: true });
-    this.canvas.addEventListener('mouseup',    onUp,    { passive: true });
+    window.addEventListener('mousemove',       onMove,  { passive: true });
+    window.addEventListener('mouseup',         onUp,    { passive: true });
     this.canvas.addEventListener('touchstart', onDown,  { passive: true });
-    this.canvas.addEventListener('touchmove',  onMove,  { passive: true });
-    this.canvas.addEventListener('touchend',   onUp,    { passive: true });
+    window.addEventListener('touchmove',       onMove,  { passive: true });
+    window.addEventListener('touchend',        onUp,    { passive: true });
   }
 
   _resize() {

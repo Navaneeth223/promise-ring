@@ -8,9 +8,10 @@ export default defineConfig({
     assetsInlineLimit: 0,   // never inline frames/assets
     rollupOptions: {
       output: {
-        manualChunks: {
-          three: ['three'],
-          gsap:  ['gsap'],
+        manualChunks(id) {
+          if (id.includes('three')) return 'three';
+          if (id.includes('gsap')) return 'gsap';
+          if (id.includes('lenis')) return 'lenis';
         },
       },
     },

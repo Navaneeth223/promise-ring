@@ -161,9 +161,13 @@ export class ParticleSystem {
 
   /** Ongoing sparkle bursts from the ring position */
   addSparkles(x, y, count = 8) {
+    if (this._mode === 'idle') {
+      this._mode = 'sparkle';
+    }
     for (let i = 0; i < count; i++) {
       this.sparkles.push(new Sparkle(this.canvas, x, y));
     }
+    if (!this._running) this._loop();
   }
 
   stop() {

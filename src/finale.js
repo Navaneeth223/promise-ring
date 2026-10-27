@@ -26,14 +26,18 @@ export function startFinale({ ring3d, particles, lenis }) {
   const ax = RING_ANCHOR.x * 100;
   const ay = RING_ANCHOR.y * 100;
 
-  // Position the 3D camera starting view near anchor
+  // Position the 3D ring starting view near anchor
   // We translate the group so it appears at anchor, then animate to 0,0
-  ring3d._group.position.set(
-    (RING_ANCHOR.x - 0.5) * 6,  // map 0-1 to -3…+3 world units
-    -(RING_ANCHOR.y - 0.5) * 6,
-    0
-  );
-  ring3d._group.scale.setScalar(0.3);
+  const cam = ring3d.camera;
+  const fovRad = (cam.fov * Math.PI) / 180;
+  const visibleHeight = 2 * Math.tan(fovRad / 2) * cam.position.z;
+  const visibleWidth = visibleHeight * cam.aspect;
+
+  const startX = (RING_ANCHOR.x - 0.5) * visibleWidth;
+  const startY = -(RING_ANCHOR.y - 0.5) * visibleHeight;
+
+  ring3d._group.position.set(startX, startY, 0);
+  ring3d._group.scale.setScalar(0.25);
 
   // Fade in the canvas overlay
   ringCanvas.classList.add('active');

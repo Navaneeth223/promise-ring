@@ -237,7 +237,11 @@ document.getElementById('btn-try-again').addEventListener('click', () => {
 // ────────────────────────────────────────────────────────────
 // Finale
 // ────────────────────────────────────────────────────────────
+let finaleStarted = false;
 function showFinale() {
+  if (finaleStarted) return;
+  finaleStarted = true;
+
   // Stop ambient particles; finale will add sparkles via ring3d callback
   particles.stop();
 
