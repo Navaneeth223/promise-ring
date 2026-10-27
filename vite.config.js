@@ -19,7 +19,7 @@ export default defineConfig({
     include: ['three', 'gsap', 'lenis'],
   },
   server: {
-    port: 5173,
-    open: true,
+    port: 5188,
+    open: false,
   },
 });

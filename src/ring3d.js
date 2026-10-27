@@ -174,9 +174,13 @@ export class Ring3D {
   async load() {
     return new Promise((resolve, reject) => {
       const loader = new GLTFLoader();
-      loader.load(
-        '/frames/heart+ring+3d+model.glb',
-        (gltf) => {
+      const modelUrl = '/assets/ring.glb';
+      const fallbackUrl = '/frames/heart+ring+3d+model.glb';
+
+      const tryLoad = (url, isFallback = false) => {
+        loader.load(
+          url,
+          (gltf) => {
           const model = gltf.scene;
 
           const platinumMat = this._makePlatinumMaterial();
@@ -215,13 +219,20 @@ export class Ring3D {
         },
         undefined,
         (err) => {
-          console.warn('[Ring3D] Could not load ring.glb — using placeholder geometry.', err);
-          this._buildPlaceholderRing();
-          resolve(); // resolve anyway so the rest of the app continues
+          if (!isFallback) {
+            tryLoad(fallbackUrl, true);
+          } else {
+            console.warn('[Ring3D] Could not load ring.glb — using placeholder geometry.', err);
+            this._buildPlaceholderRing();
+            resolve();
+          }
         }
       );
-    });
-  }
+    };
+
+    tryLoad(modelUrl, false);
+  });
+}
 
   /** Simple torus as placeholder when ring.glb is missing */
   _buildPlaceholderRing() {
