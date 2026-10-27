@@ -43,15 +43,15 @@
     <!-- ── Caption layer ─────────────────────────────────── -->
     <div id="caption-layer" aria-hidden="true"></div>
 
-    <!-- ── Scene 1: video 1 scrub ─────────────────────────── -->
-    <div id="scene1" class="scene">
-      <!-- This div provides the scroll height; canvas is pinned -->
-      <div style="height: var(--scene1-height, 4000px);"></div>
-    </div>
-
-    <!-- ── Canvas (shared, pinned) ────────────────────────── -->
+    <!-- ── Background Canvas (Fixed behind everything) ─────── -->
     <div id="canvas-wrap">
       <canvas id="video-canvas" aria-hidden="true"></canvas>
+    </div>
+
+    <!-- ── Scene 1: video 1 scrub ─────────────────────────── -->
+    <div id="scene1" class="scene">
+      <!-- This div provides the scroll height -->
+      <div style="height: var(--scene1-height, 3500px);"></div>
     </div>
 
     <!-- ── Question overlay ───────────────────────────────── -->

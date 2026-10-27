@@ -44,9 +44,7 @@ export function setupScenes({
     trigger: scene1,
     start: 'top top',
     end: `+=${VIDEO1_SCROLL_HEIGHT}`,
-    scrub: 1.2,
-    pin: canvasWrap,
-    pinSpacing: false,
+    scrub: 0.8,
     onUpdate(self) {
       const p = self.progress;
 
@@ -109,9 +107,7 @@ export function setupScenes({
       trigger: scene2,
       start: 'top top',
       end: `+=${VIDEO2_SCROLL_HEIGHT}`,
-      scrub: 1.2,
-      pin: canvasWrap,
-      pinSpacing: false,
+      scrub: 0.8,
       onUpdate(self) {
         const p = self.progress;
 

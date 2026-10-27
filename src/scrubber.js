@@ -10,8 +10,8 @@ export class Scrubber {
    */
   constructor(canvas, frames = []) {
     this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-    this.frames = frames;
+    this.ctx = canvas.getContext('2d', { alpha: false });
+    this._frames = frames;
     this._currentIndex = -1;
     this._raf = null;
     this._pendingIndex = 0;
@@ -20,19 +20,39 @@ export class Scrubber {
     this._resize();
     this._ro = new ResizeObserver(() => this._resize());
     this._ro.observe(canvas.parentElement ?? document.body);
+    window.addEventListener('resize', () => this._resize(), { passive: true });
+
+    if (frames && frames.length) {
+      this.frames = frames;
+    }
+  }
+
+  set frames(list) {
+    this._frames = list || [];
+    this._currentIndex = -1;
+    if (this._frames.length > 0) {
+      this._draw(0);
+      this._currentIndex = 0;
+    }
+  }
+
+  get frames() {
+    return this._frames;
   }
 
   _resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const w = this.canvas.offsetWidth;
-    const h = this.canvas.offsetHeight;
+    const w = this.canvas.offsetWidth || window.innerWidth;
+    const h = this.canvas.offsetHeight || window.innerHeight;
     this.canvas.width  = Math.round(w * dpr);
     this.canvas.height = Math.round(h * dpr);
     this._dpr = dpr;
     this._w = w;
     this._h = h;
-    if (this.frames && this.frames.length && this._currentIndex >= 0) {
-      this._draw(this._currentIndex);
+
+    if (this._frames && this._frames.length) {
+      const idx = this._currentIndex >= 0 ? this._currentIndex : 0;
+      this._draw(idx);
     }
   }
 
@@ -41,10 +61,10 @@ export class Scrubber {
    * @param {number} progress 0–1
    */
   seek(progress) {
-    if (!this.frames || !this.frames.length) return;
+    if (!this._frames || !this._frames.length) return;
     const idx = Math.min(
-      Math.max(0, Math.floor(progress * (this.frames.length - 1))),
-      this.frames.length - 1
+      Math.max(0, Math.floor(progress * (this._frames.length - 1))),
+      this._frames.length - 1
     );
     if (idx === this._currentIndex) return;
     this._pendingIndex = idx;
@@ -62,7 +82,8 @@ export class Scrubber {
 
   /** Draw with cover-fit so the image always fills the canvas. */
   _draw(idx) {
-    const bm = this.frames[idx];
+    if (!this._frames) return;
+    const bm = this._frames[idx];
     if (!bm) return;
 
     const ctx = this.ctx;
@@ -76,7 +97,6 @@ export class Scrubber {
     const dx = (cw - sw) / 2;
     const dy = (ch - sh) / 2;
 
-    ctx.clearRect(0, 0, cw, ch);
     ctx.drawImage(bm, dx, dy, sw, sh);
   }
 
@@ -93,7 +113,7 @@ export class Scrubber {
     ctx.fillRect(0, 0, cw, ch);
     if (label) {
       ctx.fillStyle = 'rgba(255,255,255,0.18)';
-      ctx.font = `${14 * this._dpr}px Inter, sans-serif`;
+      ctx.font = `${14 * (this._dpr || 1)}px Inter, sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(label, cw / 2, ch / 2);
@@ -102,6 +122,7 @@ export class Scrubber {
 
   destroy() {
     this._ro.disconnect();
+    window.removeEventListener('resize', this._resize);
     if (this._raf) cancelAnimationFrame(this._raf);
   }
 }

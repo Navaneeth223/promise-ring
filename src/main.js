@@ -61,17 +61,6 @@ gsap.ticker.lagSmoothing(0);
 
 // ScrollTrigger + Lenis integration
 lenis.on('scroll', ScrollTrigger.update);
-ScrollTrigger.scrollerProxy(document.body, {
-  scrollTop(value) {
-    if (arguments.length) lenis.scrollTo(value, { immediate: true });
-    return window.scrollY;
-  },
-  getBoundingClientRect() {
-    return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
-  },
-  pinType: document.body.style.transform ? 'transform' : 'fixed',
-});
-ScrollTrigger.defaults({ scroller: document.body });
 
 lenis.stop(); // stay locked until loader finishes
 
@@ -148,6 +137,8 @@ async function boot() {
     onScene1End: showQuestion,
     onScene2End: showFinale,
   });
+
+  ScrollTrigger.refresh();
 }
 
 // ────────────────────────────────────────────────────────────
