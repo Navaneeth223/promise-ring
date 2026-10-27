@@ -15,7 +15,7 @@ export const CONFIG = {
     'I knew that oceans were just details.',
     '',
     'Every timezone, every sleepy call, every "good morning" that was',
-    'actually your midnight — all of it has only made me more certain.',
+    'actually your 1 30 min — all of it has only made me more certain.',
     '',
     'I can\'t offer you everything yet.',
     'But I can offer you this: my promise.',
