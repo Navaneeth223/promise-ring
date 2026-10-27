@@ -175,7 +175,7 @@ export class Ring3D {
     return new Promise((resolve, reject) => {
       const loader = new GLTFLoader();
       loader.load(
-        '/assets/ring.glb',
+        '/frames/heart+ring+3d+model.glb',
         (gltf) => {
           const model = gltf.scene;
 

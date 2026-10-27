@@ -50,8 +50,8 @@ export function setupScenes({
     onUpdate(self) {
       const p = self.progress;
 
-      // Scrub frames
-      if (frames.v1.length) {
+      // Scrub video
+      if (frames.v1) {
         scrubber.seek(p);
       } else {
         // Placeholder
@@ -111,7 +111,7 @@ export function setupScenes({
       onUpdate(self) {
         const p = self.progress;
 
-        if (frames.v2.length) {
+        if (frames.v2) {
           scrubber.seek(p);
         } else {
           scrubber.drawPlaceholder(

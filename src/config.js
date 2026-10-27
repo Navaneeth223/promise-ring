@@ -45,15 +45,14 @@ export const CONFIG = {
     { text: 'Right here. With you.',        inAt: 0.65,  outAt: 0.88 },
   ],
 
-  // ── Frame sequences ───────────────────────────────────────
-  // Run the ffmpeg commands in the README to populate these.
-  VIDEO1_FRAMES: 168,   // total frames in public/frames/v1/
-  VIDEO2_FRAMES: 168,   // total frames in public/frames/v2/
-  FRAME_EXT: 'webp',    // extension of generated frames
+  // ── Video sources ─────────────────────────────────────────
+  // MP4 files served from public/frames/
+  VIDEO1_SRC: '/frames/v1/kling_20261027_VIDEO_Soft_2D_an_36_0.mp4',
+  VIDEO2_SRC: '/frames/v2/kling_20261027_VIDEO_Continue_t_220_0.mp4',
 
   // Scroll height per video (px) — more = slower, silkier scrub
-  VIDEO1_SCROLL_HEIGHT: 4000,
-  VIDEO2_SCROLL_HEIGHT: 4000,
+  VIDEO1_SCROLL_HEIGHT: 5000,
+  VIDEO2_SCROLL_HEIGHT: 5000,
 
   // ── Ring anchor ───────────────────────────────────────────
   // Normalised position (0-1) of her ring finger in the LAST

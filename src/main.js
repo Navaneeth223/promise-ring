@@ -99,7 +99,7 @@ musicBtn.addEventListener('click', () => {
 // State
 // ────────────────────────────────────────────────────────────
 let answered = false;
-let allFrames = { v1: [], v2: [] };
+let allVideos = { v1: null, v2: null }; // HTMLVideoElements
 let scrubber, particles, ring3d, sceneController;
 
 // ────────────────────────────────────────────────────────────
@@ -107,25 +107,25 @@ let scrubber, particles, ring3d, sceneController;
 // ────────────────────────────────────────────────────────────
 async function boot() {
   // 1. Initialise subsystems (order matters for z-index layering)
-  scrubber  = new Scrubber(videoCanvas, []);
+  scrubber  = new Scrubber(videoCanvas, null);
   particles = new ParticleSystem(particleCanvas);
   ring3d    = new Ring3D(ringCanvas);
 
   // Start gentle ambient particles
   particles.startAmbient();
 
-  // 2. Load frames + 3D ring concurrently
-  const [frames] = await Promise.all([
+  // 2. Load videos + 3D ring concurrently
+  const [videos] = await Promise.all([
     loadAllFrames(progress => {
       if (loaderFill) loaderFill.style.width = `${Math.round(progress * 100)}%`;
     }),
     ring3d.load(),
   ]);
 
-  allFrames = frames;
+  allVideos = videos;
 
-  // Set scene 1 frames in scrubber
-  scrubber.frames = allFrames.v1;
+  // Set scene 1 video in scrubber
+  scrubber.frames = allVideos.v1;
   scrubber.seek(0);
 
   // 3. Brief pause so loader feels intentional
@@ -144,7 +144,7 @@ async function boot() {
   sceneController = setupScenes({
     lenis,
     scrubber,
-    frames: allFrames,
+    frames: allVideos,
     onScene1End: showQuestion,
     onScene2End: showFinale,
   });
@@ -194,12 +194,12 @@ function handleYes() {
     document.body.style.overflow = '';
     lenis.start();
 
-    // Switch scrubber to v2 frames
-    scrubber.frames = allFrames.v2;
+    // Switch scrubber to v2 video
+    scrubber.frames = allVideos.v2;
     scrubber.seek(0);
 
-    // Draw first v2 frame
-    if (!allFrames.v2.length) {
+    // Draw first v2 frame (placeholder if not ready)
+    if (!allVideos.v2) {
       scrubber.drawPlaceholder('#0e0a0c', 'Scene 2 — start');
     }
 
